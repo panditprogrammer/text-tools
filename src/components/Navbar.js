@@ -16,7 +16,7 @@ function Navbar(props) {
                             <a className="nav-link active" aria-current="page" href="/">{props.home}</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link">{props.about}</a>
+                            <a className="nav-link" href="/">{props.about}</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/">{props.contact}</a>
