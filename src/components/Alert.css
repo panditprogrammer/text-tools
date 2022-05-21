@@ -1,0 +1,13 @@
+.alert{
+    padding: 0.7rem !important;
+    min-width: 300px;
+    background-color: var(--bg_coral);
+    color: var(--text_dark);
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    text-align: left;
+    transition: 0.5s;
+    box-shadow: 0px 5px 10px var(--text_dark);
+    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+}

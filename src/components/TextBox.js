@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
+import Button from './Button';
 import "./TextBox.css"
+import Alert from "./Alert";
 
 
 function TextBox(props) {
@@ -12,12 +14,15 @@ function TextBox(props) {
     // show occurances of numbers
     const [showNumber, setshowNumber] = useState("0");
 
+    // show alert message 
+    const [Message, SetMessage] = useState("Welcome to Text Tools...")
+
     let previewTextStyle = {
         display: "block"
     }
 
     const previewTextToggle = () => {
-        if (preview.display == "block") {
+        if (preview.display === "block") {
             previewTextStyle.display = "none";
             setPreview(previewTextStyle)
         } else {
@@ -46,6 +51,7 @@ function TextBox(props) {
 
     const makeClear = () => {
         setText("");
+        showMessage("Text Cleared");
     }
 
     const pasteText = () => {
@@ -53,6 +59,7 @@ function TextBox(props) {
         navigator.clipboard.readText()
             .then(text => {
                 setText(text);
+                showMessage("Text Pasted");
             })
             .catch(err => {
                 console.error('failed to paste', err);
@@ -61,6 +68,7 @@ function TextBox(props) {
 
     const copyToClipBoard = () => {
         navigator.clipboard.writeText(Text);
+        showMessage("Copied to Clipboard");
     }
 
     const removeExtraSpaces = () => {
@@ -68,7 +76,7 @@ function TextBox(props) {
     }
 
     const removeExtraLines = () => {
-        setText(Text.replace(/(\r\n|\n|\r)/gm, " "));
+        setText(Text.replace(/[\r\n]+/g, '\n'));
     }
 
     const capitalizeString = () => {
@@ -96,42 +104,58 @@ function TextBox(props) {
             }
         })
         setshowNumber(count);
+        showMessage(`Numbers ${count} Times Found`);
     }
 
+    const showMessage = (m) => {
+        document.getElementById("alert").style.right = "1rem";
+        SetMessage(m);
+        setTimeout(() => {
+            document.getElementById("alert").style.right = "-100%";
+        }, 3000);
+
+    }
+
+
+
     return (
-        <div className='container border'>
-            <h1 className='my-2'>{props.heading}</h1>
-            <div className="my-2">
-                <textarea name="textarea_input" id="textarea_input" rows="8" className='form-control' placeholder='Write your text here' value={Text} onChange={textOnChangeHandler}></textarea>
-                <span className="fw-light mx-2">Characters: {Text.length}</span>
-                <span className="fw-light mx-2">Words: {Text.length === 0 ? 0 : (Text.trim()).split(" ").length}</span>
-                <span className="fw-light mx-2">Numbers count: {showNumber}</span>
-            </div>
+        <>
+            <Alert className={"alert p-1 fade show"} message={Message} ></Alert>
+            <div className='container text_tool'>
+                <h1 className='my-2'>{props.heading}</h1>
+                <div className="d-flex flex-wrap justify-content-start">
+                    <Button click={makeUpperCase} className={"btn btn-sm bg-light text-dark m-2"} text={"Uppercase"}></Button>
+                    <Button click={makeLowerCase} className={"btn btn-sm bg-light text-dark m-2"} text={"Lowercase"}></Button>
+                    <Button click={capitalizeString} className={"btn btn-sm bg-light text-dark m-2"} text={"Capitalize"}></Button>
+                    <Button click={removeExtraSpaces} className={"btn btn-sm bg-light text-dark m-2"} text={"Remove Extra Spaces"}></Button>
+                    <Button click={removeExtraLines} className={"btn btn-sm bg-light text-dark m-2"} text={"Remove Extra Lines"}></Button>
+                    <Button click={checkNumbers} className={"btn btn-sm bg-light text-dark m-2"} text={"Check Numbers"}></Button>
+                </div>
 
-            {/* Texting buttons  */}
-            <div className="border d-flex flex-wrap justify-content-start">
-                <button onClick={copyToClipBoard} className="btn btn-success btn-sm m-2"><i className="fa-solid fa-copy"></i></button>
-                <button onClick={pasteText} className="btn btn-success btn-sm m-2"><i className="fa-solid fa-paste"></i></button>
-                <button onClick={makeClear} className="btn btn-danger m-2"><i className="fa-solid fa-trash"></i></button>
-            </div>
-            <div className="border d-flex flex-wrap justify-content-start">
-                <button onClick={makeUpperCase} className="btn btn-success btn-sm m-2">Uppercase</button>
-                <button onClick={makeLowerCase} className="btn btn-success btn-sm m-2">Lowercase</button>
-                <button onClick={capitalizeString} className="btn btn-success btn-sm m-2">Capitalize</button>
-                <button onClick={removeExtraSpaces} className="btn btn-success btn-sm m-2">Remove Extra Spaces</button>
-                <button onClick={removeExtraLines} className="btn btn-success btn-sm m-2">Remove Extra Lines</button>
+                <div className="my-2">
+                    <textarea autoFocus="on" name="textarea_input" id="textarea_input" rows="8" className='form-control bg-light text-dark' placeholder='Write your text here' value={Text} onChange={textOnChangeHandler}></textarea>
+                    <span className="fw-light mx-2">Characters: {Text.length}</span>
+                    <span className="fw-light mx-2">Words: {Text.trim().length === 0 ? 0 : (Text.trim().split(/\s+/).length)}</span>
+                    <span className="fw-light mx-2">Spaces count: {Text.split(" ").length - 1}</span>
+                    <span className="fw-light mx-2">New Line count: {Text.split("\n").length - 1}</span>
+                    <span className="fw-light mx-2">Numbers count: {showNumber}</span>
+                </div>
 
-                <button onClick={checkNumbers} className="btn btn-success btn-sm m-2">Check Numbers</button>
-                <button className="btn btn-success btn-sm m-2" onClick={previewTextToggle}>Preview Text</button>
-            </div>
+                {/* Texting buttons  */}
+                <div className="d-flex flex-wrap justify-content-start">
+                    <Button click={copyToClipBoard} className={"btn btn-sm bg-light text-dark m-2"} text={<i className="fa-solid fa-copy"></i>}></Button>
+                    <Button click={pasteText} className={"btn btn-sm bg-light text-dark m-2"} text={<i className="fa-solid fa-paste"></i>}></Button>
+                    <Button className={"btn btn-sm bg-light text-dark m-2"} click={previewTextToggle} text={<i className="fa-solid fa-eye-slash"></i>}></Button>
+                    <Button click={makeClear} className={"btn btn-danger m-2"} text={<i className="fa-solid fa-trash"></i>}></Button>
+                </div>
 
-            {/* preview text  */}
-            <div className="preview my-2" style={preview}>
-                <h2>Preview </h2>
-                <p>{Text}</p>
+                {/* preview text  */}
+                <div className="preview my-2" style={preview}>
+                    <h2>Preview </h2>
+                    <p>{Text}</p>
+                </div>
             </div>
-        </div>
-
+        </>
     )
 }
 

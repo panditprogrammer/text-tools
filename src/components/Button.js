@@ -1,8 +1,9 @@
 import React from 'react'
+import "./Button.css"
 
 function Button(props) {
   return (
-      <button className='btn btn-success my-2'>{props.text}</button>
+      <button className={props.className} onClick={props.click}>{props.text}</button>
   )
 }
 

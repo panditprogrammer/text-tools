@@ -1,0 +1,11 @@
+.footer_container {
+    border: 1px solid var(--bg_coral);
+}
+
+.footer_container .footer {
+    padding: 1rem;
+    text-align: center;
+}
+.footer_container .footer a {
+    color: var(--text_dark);
+}

@@ -1,7 +1,109 @@
+:root {
+    --bg_light: #eeeeee;
+    --text_dark: #1B2631;
+    --bg_coral: coral;
+    transition:  0.5s;
+}
+
+body {
+    background-color: var(--bg_light) !important;
+    color: var(--text_dark) !important;
+    overflow-x: hidden;
+}
+
+/* scroll bar  */
+::-webkit-scrollbar{
+    width: 0.5vw;
+
+}
+::-webkit-scrollbar-thumb{
+    background-color: var(--text_dark);
+    border-radius: 0.5rem;
+}
+
+
+
+.bg-success,
+.navbar-success,
+.btn-success {
+    background-color: #27AE60 !important;
+}
+
+.navbar-text-black a:hover {
+    color: var(--text_dark) !important;
+    background-color: tomato;
+}
+
+/* navbar btn toggle  */
+.navbar-toggler,
+.navbar-toggler span {
+    background-color: var(--bg_light);
+    color: var(--text_dark)!important;
+}
+
+.navbar-coral {
+    background-color: var(--bg_coral) !important;
+}
+
+.text_tool{
+    height: 100vh !important;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+    border: 1px solid coral;
+
+}
+
+.form-check-input {
+    box-shadow: none !important;
+}
+
+.form-check-input:checked {
+    background-color: black;
+
+}
+
+/* dark mode  */
+.bg-dark {
+    background-color: var(--bg_dark) !important;
+}
+
+.bg-light {
+    background-color: var(--bg_light) !important;
+}
+
+.text-dark a,
+.text-dark {
+    color: var(--text_dark) !important;
+}
+
+.text-white{
+    color: var(--text_dark) !important;
+}
+
+/* dark mode ends */
+
+.preview{
+    overflow: auto;
+}
+
 @media screen and (max-width: 768px) {
 
-    .container{
-        padding: 0rem;
+    .container {
+        padding: 0rem 0.5rem;
     }
 
+}
+
+@media screen and (max-width: 480px){
+    .alert{
+        min-width: 90%;
+        top: 3rem;
+        bottom: auto !important;
+        right: 1rem;
+        text-align: center;
+    }
+    
+    
 }
